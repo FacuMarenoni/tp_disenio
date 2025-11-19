@@ -223,6 +223,75 @@ btnCancelar.addEventListener('click', () => {
         ocultarPaneles();
     }
 });
+function cambiarVista(vista) {
+    const secciones = document.querySelectorAll('.vista-seccion');
+    secciones.forEach(seccion => {
+        seccion.style.display = 'none';
+    });
+    
+
+    const links = document.querySelectorAll('.nav-link');
+    links.forEach(link => {
+        link.classList.remove('active');
+    });
+
+    const vistaMostrar = document.getElementById(`vista-${vista}`);
+    if (vistaMostrar) {
+        vistaMostrar.style.display = 'block';
+    } else {
+        console.error(`No se encontró la vista con ID: vista-${vista}`);
+    }
+
+    const linkActivo = Array.from(links).find(link => link.getAttribute('onclick').includes(`'${vista}'`));
+    if (linkActivo) {
+        linkActivo.classList.add('active');
+    }
+    if (vista === 'buscar') {
+        cargarTablaHuespedes();
+    }
+}
+
+async function cargarTablaHuespedes() {
+    const tbody = document.getElementById('tabla-huespedes-body');
+    // Mensaje de carga mientras esperamos al servidor
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Cargando datos...</td></tr>';
+
+    try {
+        // Petición GET al endpoint que creamos en el Controller
+        const response = await fetch(API_URL); 
+        
+        if (response.ok) {
+            const listaHuespedes = await response.json();
+            tbody.innerHTML = ''; // Limpiamos el mensaje de carga
+
+            if (listaHuespedes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No se encontraron huéspedes registrados</td></tr>';
+                return;
+            }
+
+            // Recorremos la lista y creamos las filas (tr)
+            listaHuespedes.forEach(h => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td style="text-align:center;"><input type="checkbox" value="${h.idHuesped}"></td>
+                    <td>${h.nombres}</td>
+                    <td>${h.apellido}</td>
+                    <td>${h.tipoDocumento}</td>
+                    <td>${h.numeroDocumento}</td>
+                `;
+                tbody.appendChild(fila);
+            });
+        } else {
+            console.error("Error al obtener huéspedes:", response.status);
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Error al cargar los datos del servidor</td></tr>';
+        }
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Error de conexión con la base de datos</td></tr>';
+    }
+}
+
+
 btnModalSi.addEventListener('click', () => { modalExito.style.display = 'none'; form.reset(); limpiarErrores(); });
 btnModalNo.addEventListener('click', () => { modalExito.style.display = 'none'; });
 btnModalCorregir.addEventListener('click', () => { modalAdvertencia.style.display = 'none'; datosHuespedTemporal = null; });

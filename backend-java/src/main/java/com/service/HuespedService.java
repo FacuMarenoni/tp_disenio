@@ -8,6 +8,8 @@ import com.model.Direccion;
 import com.model.Huesped;
 import com.repository.HuespedRepository;
 
+import java.util.List;
+
 @Service
 public class HuespedService {
 
@@ -33,5 +35,9 @@ public class HuespedService {
         }
 
         return huespedRepository.save(huesped);
+    }
+
+    public List<Huesped> obtenerTodos() {
+        return huespedRepository.findAll();
     }
 }

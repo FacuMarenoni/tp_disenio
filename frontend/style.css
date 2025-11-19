@@ -1,58 +1,144 @@
+/* --- RESET BÁSICO --- */
 body {
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 20px;
     color: #333;
+    height: 100vh; 
+    overflow: hidden; 
 }
+
+/* --- LAYOUT PRINCIPAL (SIDEBAR + CONTENIDO) --- */
+.app-layout {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+/* --- BARRA LATERAL (SIDEBAR) --- */
+.sidebar {
+    width: 260px;
+    background-color: #0056b3; 
+    color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+    flex-shrink: 0; 
+}
+
+.sidebar-header {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+    flex: 1;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
+    transition: all 0.3s;
+    border-left: 4px solid transparent; 
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-left-color: #ffffff; 
+}
+
+/* --- CONTENIDO PRINCIPAL (DERECHA) --- */
+.main-content {
+    flex: 1; 
+    /* CAMBIO 1: Reduje el padding de 30px a 10px para subir todo el contenido */
+    padding: 10px; 
+    overflow-y: auto; 
+    background-color: #f4f4f4;
+}
+
+/* ... (Estilos de contenedor y formulario) ... */
+
 .container {
     max-width: 900px;
-    margin: auto;
+    margin: 0 auto; 
     background: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
+
 h2 {
     text-align: center;
     color: #0056b3;
+    margin-bottom: 25px;
+    /* CAMBIO 2: Quitamos el margen superior por defecto del título */
+    margin-top: 0; 
 }
+
 fieldset {
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 20px;
     padding: 15px;
 }
+
 legend {
     font-weight: bold;
     color: #0056b3;
 }
+
 .form-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
 }
+
 .form-group {
     display: flex;
     flex-direction: column;
 }
+
 .form-group label {
     margin-bottom: 5px;
     font-weight: bold;
 }
+
 .form-group input,
 .form-group select {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
     width: 100%;
-    box-sizing: border-box; /* Importante para el padding */
+    box-sizing: border-box;
 }
+
 .form-buttons {
     display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: 20px;
 }
+
 button {
     padding: 10px 15px;
     border: none;
@@ -60,14 +146,17 @@ button {
     cursor: pointer;
     font-weight: bold;
 }
+
 .btn-submit {
     background-color: #28a745;
     color: white;
 }
+
 .btn-cancel {
     background-color: #dc3545;
     color: white;
 }
+
 .mensaje-error {
     color: #dc3545;
     background-color: #f8d7da;
@@ -76,16 +165,22 @@ button {
     border-radius: 4px;
     margin-top: 15px;
 }
-.mensaje-exito {
-    color: #28a745;
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 15px;
+
+/* Estilos de Validación */
+.error-text {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: none;
+    font-weight: bold;
 }
 
-/* --- Estilos para la Ventana Modal --- */
+.input-error {
+    border: 2px solid #dc3545 !important;
+    background-color: #fff8f8;
+}
+
+/* Modales */
 .modal-overlay {
     position: fixed; 
     top: 0;
@@ -125,15 +220,4 @@ button {
 .modal-botones button {
     padding: 10px 30px; 
     font-size: 15px;
-}
-
-.input-error {
-    border: 2px solid #ff4444 !important; 
-    background-color: #ffe6e6; 
-}
-
-.error-text {
-    color: #ff4444;
-    font-size: 0.8rem;
-    margin-top: 2px;
 }

@@ -9,6 +9,8 @@ import com.model.Huesped;
 import com.service.HuespedService;
 import jakarta.validation.Valid; 
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/huespedes")
 @CrossOrigin(origins = "*") 
@@ -27,5 +29,10 @@ public class HuespedController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
+    }
+
+    @GetMapping
+    public List<Huesped> listarHuespedes() {
+        return huespedService.obtenerTodos();
     }
 }
