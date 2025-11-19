@@ -2,7 +2,6 @@ const form = document.getElementById('form-alta-huesped');
 const btnCancelar = document.getElementById('btn-cancelar');
 const msgError = document.getElementById('mensaje-error');
 
-
 const modalExito = document.getElementById('modal-exito');
 const modalMensaje = document.getElementById('modal-mensaje');
 const btnModalSi = document.getElementById('btn-modal-si');
@@ -13,94 +12,108 @@ const modalAdvertenciaMensaje = document.getElementById('modal-advertencia-mensa
 const btnModalCorregir = document.getElementById('btn-modal-corregir');
 const btnModalAceptar = document.getElementById('btn-modal-aceptar');
 
-
 const API_URL = 'http://localhost:8080/api/huespedes';
-
-
 let datosHuespedTemporal = null;
 
-async function guardarHuesped(huespedData) {
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(huespedData),
-        });
+const reglaSoloTexto = { 
+    regex: /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]+$/, 
+    msg: 'Solo se permiten letras.' 
+};
 
-        if (response.ok) {
-            const nuevoHuesped = await response.json();
-            mostrarModalExito(nuevoHuesped);
-        } else if (response.status === 409) {
-            //Flujo Alternativo 2.B
-            const errorMsg = await response.text();
-            datosHuespedTemporal = huespedData; 
-            mostrarModalAdvertencia(errorMsg);
-        } else {
-            mostrarErrorGeneral('Ocurrió un error inesperado al guardar el huésped.');
-        }
+const reglaSoloNumeros = { 
+    regex: /^[0-9]+$/, 
+    msg: 'Solo se permiten números.' 
+};
 
-    } catch (error) {
-        console.error('Error de conexión:', error);
-        mostrarErrorGeneral('No se pudo conectar con el servidor. Revisa la consola.');
+// Validaciones
+const reglasValidacion = {
+    'nombres': reglaSoloTexto,
+    'apellido': reglaSoloTexto,
+    'nacionalidad': reglaSoloTexto,
+    'pais': reglaSoloTexto,
+    'provincia': reglaSoloTexto,
+    'localidad': reglaSoloTexto,
+    'ocupacion': reglaSoloTexto,
+    'numeroDocumento': reglaSoloNumeros,
+    'codigoPostal': reglaSoloNumeros,
+    'direccionNumero': reglaSoloNumeros,
+    'direccionCalle': reglaSoloTexto,
+    'telefono': { regex: /^[0-9+]+$/, msg: 'Solo números y el signo +.' },
+    'cuit': { regex: /^[0-9-]+$/, msg: 'Formato de CUIT inválido (solo números y guiones).' }
+};
+
+
+// Mostrar errores por campo
+function mostrarErrorCampo(nombreCampo, mensaje) {
+    const input = document.querySelector(`[name="${nombreCampo}"]`);
+    const errorTag = document.getElementById(`error-${nombreCampo}`);
+    
+    if (input) {
+        input.classList.add('input-error');
+    }
+    if (errorTag) {
+        errorTag.textContent = mensaje;
+        errorTag.style.display = 'block';
     }
 }
 
-
-async function forzarGuardadoHuesped(huespedData) {
-    try {
-        const response = await fetch(`${API_URL}?force=true`, { 
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(huespedData),
-        });
-
-        if (response.ok) {
-            // Exito (Flujo Alternativo 2.B.2.1)
-            const nuevoHuesped = await response.json();
-            mostrarModalExito(nuevoHuesped);
-        } else {
-            mostrarErrorGeneral('Ocurrió un error inesperado al forzar el guardado.');
-        }
-
-    } catch (error) {
-        console.error('Error de conexión:', error);
-        mostrarErrorGeneral('No se pudo conectar con el servidor. Revisa la consola.');
-    }
-}
-
-function mostrarModalExito(nuevoHuesped) {
-    modalMensaje.textContent = `El huésped ${nuevoHuesped.nombres} ${nuevoHuesped.apellido} ha sido satisfactoriamente cargado al sistema.`;
-    modalExito.style.display = 'flex';
-}
-
-function mostrarModalAdvertencia(mensaje) {
-    modalAdvertenciaMensaje.textContent = mensaje;
-    modalAdvertencia.style.display = 'flex';
-}
-
-function mostrarErrorGeneral(mensaje) {
-    msgError.textContent = mensaje;
-    msgError.style.display = 'block';
-}
-
-function ocultarPaneles() {
+function limpiarErrores() {
+    document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+    document.querySelectorAll('.error-text').forEach(el => {
+        el.textContent = '';
+        el.style.display = 'none';
+    });
     msgError.style.display = 'none';
-    modalExito.style.display = 'none';
-    modalAdvertencia.style.display = 'none';
 }
 
+// Validacion en front
+function validarInputs(formElement, reglas) {
+    let esValido = true;
+    let primerError = null;
 
-// Boton siguiente (cargar huesped)
+    limpiarErrores(); // Limpiamos antes de validar
+
+    for (const [nameCampo, regla] of Object.entries(reglas)) {
+        const input = formElement.querySelector(`[name="${nameCampo}"]`);
+        if (input) {
+            const valor = input.value.trim();
+            
+            if (valor.length > 0 && !regla.regex.test(valor)) {
+                // Mostramos el error usando la misma función
+                mostrarErrorCampo(nameCampo, regla.msg);
+                
+                esValido = false;
+                if (!primerError) primerError = input;
+            }
+        }
+    }
+
+    return esValido;
+}
+
+// Quitar error al escribir
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', () => {
+        input.classList.remove('input-error');
+        const errorTag = document.getElementById(`error-${input.name}`);
+        if(errorTag) {
+            errorTag.textContent = '';
+            errorTag.style.display = 'none';
+        }
+    });
+});
+
+
+// Enviar formulario
 form.addEventListener('submit', async (event) => {
     event.preventDefault(); 
-    ocultarPaneles();
+    
+    // Validación Local
+    if (!validarInputs(form, reglasValidacion)) {
+        return; 
+    }
 
     const formData = new FormData(form);
-
     const huespedData = {
         nombres: formData.get('nombres'),
         apellido: formData.get('apellido'),
@@ -113,8 +126,6 @@ form.addEventListener('submit', async (event) => {
         email: formData.get('email') || null, 
         ocupacion: formData.get('ocupacion'),
         nacionalidad: formData.get('nacionalidad'),
-        
-        // 2. Creamos el objeto anidado 'direccion'
         direccion: {
             pais: formData.get('pais'),
             provincia: formData.get('provincia'),
@@ -129,36 +140,94 @@ form.addEventListener('submit', async (event) => {
     guardarHuesped(huespedData);
 });
 
-// Boton cancelar
+async function guardarHuesped(huespedData) {
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(huespedData),
+        });
+
+        if (response.ok) {
+            const nuevoHuesped = await response.json();
+            mostrarModalExito(nuevoHuesped);
+            
+        } else if (response.status === 409) {
+            const errorMsg = await response.text();
+            datosHuespedTemporal = huespedData; 
+            mostrarModalAdvertencia(errorMsg);
+
+        } else if (response.status === 400) {
+            const erroresBackend = await response.json();
+            
+            // Recorremos el mapa que mandó el backend: { "apellido": "Apellido inválido", ... }
+            Object.keys(erroresBackend).forEach(campo => {
+                // Buscamos el mensaje que vino del backend
+                const mensajeDelBackend = erroresBackend[campo];
+                // Lo mostramos en pantalla
+                mostrarErrorCampo(campo, mensajeDelBackend);
+            });
+
+            mostrarErrorGeneral("El servidor detectó datos inválidos.");
+            
+        } else {
+            mostrarErrorGeneral('Ocurrió un error inesperado al guardar el huésped.');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarErrorGeneral('No se pudo conectar con el servidor.');
+    }
+}
+
+async function forzarGuardadoHuesped(huespedData) {
+    try {
+        const response = await fetch(`${API_URL}?force=true`, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(huespedData),
+        });
+        if (response.ok) {
+            const nuevoHuesped = await response.json();
+            mostrarModalExito(nuevoHuesped);
+        } else {
+            mostrarErrorGeneral('Error al forzar guardado.');
+        }
+    } catch (error) {
+        mostrarErrorGeneral('Error de conexión.');
+    }
+}
+
+function mostrarModalExito(h) {
+    modalMensaje.textContent = `Huésped ${h.nombres} ${h.apellido} guardado exitosamente.`;
+    modalExito.style.display = 'flex';
+}
+function mostrarModalAdvertencia(msg) {
+    modalAdvertenciaMensaje.textContent = msg;
+    modalAdvertencia.style.display = 'flex';
+}
+function mostrarErrorGeneral(msg) {
+    msgError.textContent = msg;
+    msgError.style.display = 'block';
+}
+function ocultarPaneles() {
+    msgError.style.display = 'none';
+    modalExito.style.display = 'none';
+    modalAdvertencia.style.display = 'none';
+}
+
 btnCancelar.addEventListener('click', () => {
-    if (confirm('¿Desea cancelar el alta del huésped?')) {
+    if (confirm('¿Cancelar alta?')) {
         form.reset();
+        limpiarErrores();
         ocultarPaneles();
     }
 });
-
-// Boton si cargar otro
-btnModalSi.addEventListener('click', () => {
-    modalExito.style.display = 'none';
-    form.reset();
-});
-
-// Boton no cargar otro
-btnModalNo.addEventListener('click', () => {
-    modalExito.style.display = 'none';
-});
-
-// Boton corregir
-btnModalCorregir.addEventListener('click', () => {
-    modalAdvertencia.style.display = 'none';
-    datosHuespedTemporal = null; 
-});
-
-
-btnModalAceptar.addEventListener('click', () => {
-    modalAdvertencia.style.display = 'none';
-    if (datosHuespedTemporal) {
-        forzarGuardadoHuesped(datosHuespedTemporal); 
-    }
+btnModalSi.addEventListener('click', () => { modalExito.style.display = 'none'; form.reset(); limpiarErrores(); });
+btnModalNo.addEventListener('click', () => { modalExito.style.display = 'none'; });
+btnModalCorregir.addEventListener('click', () => { modalAdvertencia.style.display = 'none'; datosHuespedTemporal = null; });
+btnModalAceptar.addEventListener('click', () => { 
+    modalAdvertencia.style.display = 'none'; 
+    if (datosHuespedTemporal) forzarGuardadoHuesped(datosHuespedTemporal); 
     datosHuespedTemporal = null; 
 });

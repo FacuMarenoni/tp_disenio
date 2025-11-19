@@ -4,19 +4,12 @@ import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "huespedes")
@@ -27,13 +20,20 @@ public class Huesped {
     @Column(name = "id_huesped") 
     private Long idHuesped;
 
+    @NotBlank(message = "El apellido no puede estar vacío")
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Apellido inválido")
     private String apellido;
+    
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Nombre inválido")
     private String nombres;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_documento")
     private TipoDoc tipoDocumento;
 
+    @NotBlank
+    @Pattern(regexp = "^[0-9]+$", message = "Documento inválido")
     @Column(name = "numero_documento")
     private String numeroDocumento;
 
@@ -43,19 +43,23 @@ public class Huesped {
     @Column(name = "posicion_iva")
     private PosIva posicionIva;
 
+    @NotNull(message = "La fecha de nacimiento no puede estar vacía")
     @Temporal(TemporalType.DATE)
     @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
 
+    @Valid
     @OneToOne(mappedBy = "huesped", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference 
     private Direccion direccion;
 
     
-
+    @Pattern(regexp = "^[0-9+]+$", message = "Teléfono inválido")
     private String telefono;
     private String email;
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Campo inválido")
     private String ocupacion;
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Campo inválido")
     private String nacionalidad;
 
 

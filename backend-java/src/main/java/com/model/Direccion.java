@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "direccion")
@@ -26,20 +27,28 @@ public class Direccion {
     private Huesped huesped;
 
     
-    
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     private String pais;
+    
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     private String provincia;
+   
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     private String localidad;
     
+    @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     @Column(name = "direccion_calle")
     private String direccionCalle;
     
+    @Pattern(regexp = "^[0-9]+$", message = "Solo se permiten números")
     @Column(name = "codigo_postal")
     private String codigoPostal;
     
+    @Pattern(regexp = "^[0-9]+$", message = "Solo se permiten números")
     @Column(name = "direccion_numero")
     private String direccionNumero;
     
+    @Pattern(regexp = "^[0-9]+$", message = "Solo se permiten números")
     @Column(name = "direccion_piso")
     private String direccionPiso;
 

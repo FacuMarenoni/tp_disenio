@@ -15,23 +15,23 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="nombres">Nombres:</label>
-                        <input type="text" id="nombres" name="nombres" required 
-                               placeholder="Nombre" tabindex="1">
+                        <input type="text" id="nombres" name="nombres" required placeholder="Nombre" tabindex="1">
+                        <small id="error-nombres" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="apellido">Apellido:</label>
-                        <input type="text" id="apellido" name="apellido" required 
-                               placeholder="Apellido" tabindex="2">
+                        <input type="text" id="apellido" name="apellido" required placeholder="Apellido" tabindex="2">
+                        <small id="error-apellido" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="email">Email (Opcional):</label>
-                        <input type="email" id="email" name="email" 
-                               placeholder="Email" tabindex="3">
+                        <input type="email" id="email" name="email" placeholder="Email" tabindex="3">
+                        <small id="error-email" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required 
-                               tabindex="4">
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required tabindex="4">
+                        <small id="error-fechaNacimiento" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="tipoDocumento">Tipo de Documento:</label>
@@ -42,21 +42,22 @@
                             <option value="Pasaporte">Pasaporte</option>
                             <option value="Otro">Otro</option>
                         </select>
+                        <small id="error-tipoDocumento" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="numeroDocumento">Número de Documento:</label>
-                        <input type="text" id="numeroDocumento" name="numeroDocumento" required 
-                               placeholder="Número de documento" tabindex="6">
+                        <input type="text" id="numeroDocumento" name="numeroDocumento" required placeholder="Número de documento" tabindex="6">
+                        <small id="error-numeroDocumento" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="nacionalidad">Nacionalidad:</label>
-                        <input type="text" id="nacionalidad" name="nacionalidad" required 
-                               placeholder="Nacionalidad" tabindex="7">
+                        <input type="text" id="nacionalidad" name="nacionalidad" required placeholder="Nacionalidad" tabindex="7">
+                        <small id="error-nacionalidad" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="ocupacion">Ocupación:</label>
-                        <input type="text" id="ocupacion" name="ocupacion" required 
-                               placeholder="Ocupación" tabindex="8">
+                        <input type="text" id="ocupacion" name="ocupacion" required placeholder="Ocupación" tabindex="8">
+                        <small id="error-ocupacion" class="error-text"></small>
                     </div>
                 </div>
             </fieldset>
@@ -72,11 +73,12 @@
                             <option value="EXENTO">Exento</option>
                             <option value="MONOTRIBUTISTA">Monotributista</option>
                         </select>
+                        <small id="error-posicionIva" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="cuit">CUIT (Opcional):</label>
-                        <input type="text" id="cuit" name="cuit" 
-                               placeholder="CUIT" tabindex="10">
+                        <input type="text" id="cuit" name="cuit" placeholder="CUIT" tabindex="10">
+                        <small id="error-cuit" class="error-text"></small>
                     </div>
                 </div>
             </fieldset>
@@ -86,61 +88,60 @@
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" required 
-                               placeholder="Teléfono" tabindex="11">
+                        <input type="tel" id="telefono" name="telefono" required placeholder="Teléfono" tabindex="11">
+                        <small id="error-telefono" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="pais">País:</label>
-                        <input type="text" id="pais" name="pais" required 
-                               placeholder="País" tabindex="12">
+                        <input type="text" id="pais" name="pais" required placeholder="País" tabindex="12">
+                        <small id="error-pais" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="provincia">Provincia:</label>
-                        <input type="text" id="provincia" name="provincia" required 
-                               placeholder="Provincia" tabindex="13">
+                        <input type="text" id="provincia" name="provincia" required placeholder="Provincia" tabindex="13">
+                        <small id="error-provincia" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="localidad">Localidad:</label>
-                        <input type="text" id="localidad" name="localidad" required 
-                               placeholder="Localidad" tabindex="14">
+                        <input type="text" id="localidad" name="localidad" required placeholder="Localidad" tabindex="14">
+                        <small id="error-localidad" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="direccionCalle">Calle:</label>
-                        <input type="text" id="direccionCalle" name="direccionCalle" required 
-                               placeholder="Calle" tabindex="15">
+                        <input type="text" id="direccionCalle" name="direccionCalle" required placeholder="Calle" tabindex="15">
+                        <small id="error-direccionCalle" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="direccionNumero">Número:</label>
-                        <input type="text" id="direccionNumero" name="direccionNumero" required 
-                               placeholder="Número" tabindex="16">
+                        <input type="text" id="direccionNumero" name="direccionNumero" required placeholder="Número" tabindex="16">
+                        <small id="error-direccionNumero" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="direccionDepartamento">Depto (Opcional):</label>
-                        <input type="text" id="direccionDepartamento" name="direccionDepartamento" 
-                               placeholder="Departamento" tabindex="17">
+                        <input type="text" id="direccionDepartamento" name="direccionDepartamento" placeholder="Departamento" tabindex="17">
+                        <small id="error-direccionDepartamento" class="error-text"></small>
                     </div>
                     <div class="form-group">
                         <label for="codigoPostal">Código Postal:</label>
-                        <input type="text" id="codigoPostal" name="codigoPostal" required 
-                               placeholder="Código Postal" tabindex="18">
+                        <input type="text" id="codigoPostal" name="codigoPostal" required placeholder="Código Postal" tabindex="18">
+                        <small id="error-codigoPostal" class="error-text"></small>
                     </div>
                 </div>
             </fieldset>
             
             <div class="form-buttons">
-                <button type="button" id="btn-cancelar" class="btn-cancel" 
-                        tabindex="20">CANCELAR</button>
-                <button type="submit" id="btn-siguiente" class="btn-submit" 
-                        tabindex="19">SIGUIENTE (Guardar)</button>
+                <button type="button" id="btn-cancelar" class="btn-cancel" tabindex="20">CANCELAR</button>
+                <button type="submit" id="btn-siguiente" class="btn-submit" tabindex="19">SIGUIENTE (Guardar)</button>
             </div>
         </form>
         
         <div id="mensaje-error" class="mensaje-error" style="display:none;"></div>
     </div>
     
+    <!-- Modales (Igual que antes) -->
     <div id="modal-exito" class="modal-overlay" style="display:none;">
         <div class="modal-contenido">
-            <p id="modal-mensaje">El huésped nombres y apellido ha sido satisfactoriamente cargado al sistema.</p>
+            <p id="modal-mensaje"></p>
             <p>¿Desea cargar otro?</p>
             <div class="modal-botones">
                 <button type="button" id="btn-modal-no" class="btn-cancel">No</button>
@@ -151,7 +152,7 @@
 
     <div id="modal-advertencia" class="modal-overlay" style="display:none;">
         <div class="modal-contenido">
-            <p id="modal-advertencia-mensaje">¡CUIDADO! El tipo y número de documento ya existen en el sistema</p>
+            <p id="modal-advertencia-mensaje"></p>
             <div class="modal-botones">
                 <button type="button" id="btn-modal-corregir" class="btn-cancel">CORREGIR</button>
                 <button type="button" id="btn-modal-aceptar" class="btn-submit">ACEPTAR IGUALMENTE</button>
