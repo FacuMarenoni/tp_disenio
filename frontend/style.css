@@ -1,30 +1,28 @@
-/* --- RESET BÁSICO --- */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
-    height: 100vh; 
-    overflow: hidden; 
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* --- LAYOUT PRINCIPAL (SIDEBAR + CONTENIDO) --- */
+
 .app-layout {
     display: flex;
     height: 100%;
     width: 100%;
 }
 
-/* --- BARRA LATERAL (SIDEBAR) --- */
 .sidebar {
     width: 260px;
-    background-color: #0056b3; 
+    background-color: #0056b3;
     color: white;
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-    flex-shrink: 0; 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
 }
 
 .sidebar-header {
@@ -53,7 +51,7 @@ body {
     gap: 15px;
     padding: 15px 25px;
     transition: all 0.3s;
-    border-left: 4px solid transparent; 
+    border-left: 4px solid transparent;
 }
 
 .nav-link:hover {
@@ -64,35 +62,208 @@ body {
 .nav-link.active {
     background-color: rgba(255, 255, 255, 0.15);
     color: white;
-    border-left-color: #ffffff; 
+    border-left-color: #ffffff;
 }
 
-/* --- CONTENIDO PRINCIPAL (DERECHA) --- */
 .main-content {
-    flex: 1; 
-    /* CAMBIO 1: Reduje el padding de 30px a 10px para subir todo el contenido */
-    padding: 10px; 
-    overflow-y: auto; 
+    flex: 1;
+    padding: 10px;
+    overflow: hidden;
     background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ... (Estilos de contenedor y formulario) ... */
+#vista-alta {
+    height: 100%;
+    overflow-y: auto;
+}
+
+#vista-buscar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+#vista-buscar .container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+
+.search-container {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+    flex: 1;
+    min-height: 0;
+}
+
+.search-form-column {
+    width: 300px;
+    flex-shrink: 0;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.search-form-column h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 10px;
+    display: inline-block;
+}
+
+.search-form-column .form-group {
+    margin-bottom: 15px;
+}
+
+
+.search-results-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.search-results-column h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 10px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.table-responsive {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    background-color: white;
+    margin-bottom: 10px;
+}
+
+
+.results-table th {
+    position: sticky;
+    top: 0;
+    background-color: #e9ecef;
+    z-index: 1;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.results-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+
+.action-buttons-container {
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    flex-shrink: 0;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.btn-block {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.sidebar {
+    width: 260px;
+    background-color: #0056b3;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    font-size: 1.4rem;
+    font-weight: bold;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+    flex: 1;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 25px;
+    transition: all 0.3s;
+    border-left: 4px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-left-color: #ffffff;
+}
 
 .container {
     max-width: 900px;
-    margin: 0 auto; 
+    margin: 0 auto;
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
     text-align: center;
     color: #0056b3;
     margin-bottom: 25px;
-    /* CAMBIO 2: Quitamos el margen superior por defecto del título */
-    margin-top: 0; 
+    margin-top: 0;
 }
 
 fieldset {
@@ -166,7 +337,6 @@ button {
     margin-top: 15px;
 }
 
-/* Estilos de Validación */
 .error-text {
     color: #dc3545;
     font-size: 0.85rem;
@@ -180,28 +350,27 @@ button {
     background-color: #fff8f8;
 }
 
-/* Modales */
 .modal-overlay {
-    position: fixed; 
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    display: flex; 
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000; 
+    z-index: 1000;
 }
 
 .modal-contenido {
     background-color: #fff;
     padding: 25px 35px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
-    min-width: 350px; 
-    max-width: 500px; 
+    min-width: 350px;
+    max-width: 500px;
 }
 
 .modal-contenido p {
@@ -213,11 +382,11 @@ button {
 
 .modal-botones {
     display: flex;
-    justify-content: center; 
-    gap: 15px; 
+    justify-content: center;
+    gap: 15px;
 }
 
 .modal-botones button {
-    padding: 10px 30px; 
+    padding: 10px 30px;
     font-size: 15px;
 }

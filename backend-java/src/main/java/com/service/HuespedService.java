@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.model.Direccion;
 import com.model.Huesped;
+import com.model.TipoDoc;
 import com.repository.HuespedRepository;
 
 import java.util.List;
@@ -16,9 +17,9 @@ public class HuespedService {
     @Autowired
     private HuespedRepository huespedRepository;
 
-    @Transactional 
+    @Transactional
     public Huesped crearHuesped(Huesped huesped, boolean force) throws Exception {
-        
+
         // Flujo Alternativo 2.B: Verificar si el documento ya existe
         boolean yaExiste = huespedRepository.existsByTipoDocumentoAndNumeroDocumento(
                 huesped.getTipoDocumento(), huesped.getNumeroDocumento());
@@ -26,11 +27,9 @@ public class HuespedService {
         if (yaExiste && !force) {
             throw new Exception("¡CUIDADO! El tipo y número de documento ya existen en el sistema");
         }
-        
-        
+
         Direccion direccion = huesped.getDireccion();
         if (direccion != null) {
-           
             direccion.setHuesped(huesped);
         }
 
@@ -39,5 +38,17 @@ public class HuespedService {
 
     public List<Huesped> obtenerTodos() {
         return huespedRepository.findAll();
+    }
+
+    public List<Huesped> buscarHuespedes(String nombre, String apellido, TipoDoc tipoDocumento,
+            String numeroDocumento) {
+        if (nombre != null)
+            nombre = "%" + nombre.toLowerCase() + "%";
+        if (apellido != null)
+            apellido = "%" + apellido.toLowerCase() + "%";
+        if (numeroDocumento != null)
+            numeroDocumento = "%" + numeroDocumento + "%";
+
+        return huespedRepository.buscarHuespedes(nombre, apellido, tipoDocumento, numeroDocumento);
     }
 }
