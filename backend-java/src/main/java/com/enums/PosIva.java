@@ -1,4 +1,4 @@
-package com.model;
+package com.enums;
 
 public enum PosIva {
     CONSUMIDOR_FINAL, RESPONSABLE_INSCRIPTO, EXENTO, MONOTRIBUTISTA

@@ -17,37 +17,36 @@ import jakarta.validation.constraints.Pattern;
 public class Direccion {
 
     @Id
-    @Column(name = "id_huesped") 
+    @Column(name = "id_huesped")
     private Long idHuesped;
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @JoinColumn(name = "id_huesped")
-    @JsonBackReference 
+    @JsonBackReference
     private Huesped huesped;
 
-    
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     private String pais;
-    
+
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     private String provincia;
-   
+
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     private String localidad;
-    
+
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Solo se permiten letras")
     @Column(name = "direccion_calle")
     private String direccionCalle;
-    
+
     @Pattern(regexp = "^[0-9]+$", message = "Solo se permiten números")
     @Column(name = "codigo_postal")
     private String codigoPostal;
-    
+
     @Pattern(regexp = "^[0-9]+$", message = "Solo se permiten números")
     @Column(name = "direccion_numero")
     private String direccionNumero;
-    
+
     @Pattern(regexp = "^[0-9]+$", message = "Solo se permiten números")
     @Column(name = "direccion_piso")
     private String direccionPiso;

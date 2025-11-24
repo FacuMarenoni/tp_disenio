@@ -2,6 +2,8 @@ package com.model;
 
 import java.util.Date;
 
+import com.enums.PosIva;
+import com.enums.TipoDoc;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.validation.Valid;
@@ -17,13 +19,13 @@ public class Huesped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_huesped") 
+    @Column(name = "id_huesped")
     private Long idHuesped;
 
     @NotBlank(message = "El apellido no puede estar vacío")
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Apellido inválido")
     private String apellido;
-    
+
     @NotBlank(message = "El nombre no puede estar vacío")
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Nombre inválido")
     private String nombres;
@@ -50,10 +52,9 @@ public class Huesped {
 
     @Valid
     @OneToOne(mappedBy = "huesped", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonManagedReference 
+    @JsonManagedReference
     private Direccion direccion;
 
-    
     @Pattern(regexp = "^[0-9+]+$", message = "Teléfono inválido")
     private String telefono;
     private String email;
@@ -61,7 +62,6 @@ public class Huesped {
     private String ocupacion;
     @Pattern(regexp = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\s]+$", message = "Campo inválido")
     private String nacionalidad;
-
 
     public Long getIdHuesped() {
         return idHuesped;

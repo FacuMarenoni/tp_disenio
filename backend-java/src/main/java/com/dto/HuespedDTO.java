@@ -1,6 +1,6 @@
 package com.dto;
 
-import com.model.TipoDoc;
+import com.enums.TipoDoc;
 
 public class HuespedDTO {
     private Long idHuesped;

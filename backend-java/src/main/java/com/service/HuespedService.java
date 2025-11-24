@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enums.TipoDoc;
 import com.model.Direccion;
 import com.model.Huesped;
-import com.model.TipoDoc;
 import com.repository.HuespedRepository;
 
 import java.util.List;

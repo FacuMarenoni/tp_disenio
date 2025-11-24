@@ -41,7 +41,7 @@ public class HuespedController {
     public ResponseEntity<List<com.dto.HuespedDTO>> buscarHuespedes(
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String apellido,
-            @RequestParam(required = false) com.model.TipoDoc tipoDocumento,
+            @RequestParam(required = false) com.enums.TipoDoc tipoDocumento,
             @RequestParam(required = false) String numeroDocumento) {
         List<com.dto.HuespedDTO> resultados = huespedService.buscarHuespedes(nombre, apellido, tipoDocumento,
                 numeroDocumento);
