@@ -2,21 +2,23 @@ package com.dto;
 
 import com.enums.TipoHab;
 
+import java.util.List;
 import java.util.Map;
 
 public class HabitacionEstadoDTO {
     private String numero;
     private TipoHab tipo;
-    private Map<String, String> estadosPorFecha; // Key: Date (ISO String), Value: Status (String representation of EHab
-                                                 // or custom)
+    private Map<String, String> estadosPorFecha;
+    private List<String> camas;
 
     public HabitacionEstadoDTO() {
     }
 
-    public HabitacionEstadoDTO(String numero, TipoHab tipo, Map<String, String> estadosPorFecha) {
+    public HabitacionEstadoDTO(String numero, TipoHab tipo, Map<String, String> estadosPorFecha, List<String> camas) {
         this.numero = numero;
         this.tipo = tipo;
         this.estadosPorFecha = estadosPorFecha;
+        this.camas = camas;
     }
 
     public String getNumero() {
@@ -41,5 +43,13 @@ public class HabitacionEstadoDTO {
 
     public void setEstadosPorFecha(Map<String, String> estadosPorFecha) {
         this.estadosPorFecha = estadosPorFecha;
+    }
+
+    public List<String> getCamas() {
+        return camas;
+    }
+
+    public void setCamas(List<String> camas) {
+        this.camas = camas;
     }
 }

@@ -395,7 +395,11 @@ function renderTablaEstado(data, fechaDesdeStr, fechaHastaStr) {
     let headerRow = '<tr><th>Dia</th>';
     data.forEach(hab => {
         // Add class for room type filtering
-        headerRow += `<th class="col-room" data-tipo="${hab.tipo}">${hab.numero}</th>`;
+        let camasInfo = '';
+        if (hab.camas && hab.camas.length > 0) {
+            camasInfo = `<br><span style="font-size: 0.8em; font-weight: normal;">${hab.camas.join(', ')}</span>`;
+        }
+        headerRow += `<th class="col-room" data-tipo="${hab.tipo}">${hab.numero}${camasInfo}</th>`;
     });
     headerRow += '</tr>';
     thead.innerHTML = headerRow;
@@ -403,7 +407,6 @@ function renderTablaEstado(data, fechaDesdeStr, fechaHastaStr) {
     // 2. Generate Rows (Dates)
     let current = new Date(fechaDesdeStr + 'T00:00:00'); // Append time to avoid timezone issues
     const end = new Date(fechaHastaStr + 'T00:00:00');
-
     // Helper to format date as YYYY-MM-DD for key lookup
     const formatDateKey = (date) => {
         return date.toISOString().split('T')[0];

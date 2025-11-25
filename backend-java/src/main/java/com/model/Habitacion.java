@@ -1,8 +1,10 @@
 package com.model;
 
 import com.enums.EstadoHab;
+import com.enums.TipoCama;
 import com.enums.TipoHab;
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "habitacion")
@@ -51,5 +53,19 @@ public class Habitacion {
 
     public void setTipo(TipoHab tipo) {
         this.tipo = tipo;
+    }
+
+    @ElementCollection(targetClass = TipoCama.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "cama", joinColumns = @JoinColumn(name = "numero_hab"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo")
+    private List<TipoCama> camas;
+
+    public List<TipoCama> getCamas() {
+        return camas;
+    }
+
+    public void setCamas(List<TipoCama> camas) {
+        this.camas = camas;
     }
 }

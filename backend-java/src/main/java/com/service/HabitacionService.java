@@ -3,6 +3,7 @@ package com.service;
 import com.dto.HabitacionEstadoDTO;
 import com.enums.EstadoEstadia;
 import com.enums.EstadoHab;
+import com.enums.TipoCama;
 import com.model.Estadia;
 import com.model.Habitacion;
 import com.model.Reserva;
@@ -98,7 +99,14 @@ public class HabitacionService {
                 current = current.plusDays(1);
             }
 
-            resultado.add(new HabitacionEstadoDTO(hab.getNumero(), hab.getTipo(), estadosPorFecha));
+            List<String> camas = new ArrayList<>();
+            if (hab.getCamas() != null) {
+                for (TipoCama cama : hab.getCamas()) {
+                    camas.add(cama.name());
+                }
+            }
+
+            resultado.add(new HabitacionEstadoDTO(hab.getNumero(), hab.getTipo(), estadosPorFecha, camas));
         }
 
         return resultado;
