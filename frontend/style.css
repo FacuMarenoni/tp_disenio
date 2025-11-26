@@ -566,3 +566,31 @@ button {
 .login-card input {
     text-transform: none;
 }
+
+/* --- SELECCION GRILLA --- */
+.status-selected {
+    background-color: #3498db !important;
+    /* Azul selección */
+    color: white !important;
+    cursor: pointer;
+}
+
+.status-libre {
+    cursor: pointer;
+    /* Indicar que es clickeable */
+}
+
+.status-libre:hover {
+    background-color: #e0f7fa;
+    /* Hover suave */
+}
+
+/* Modal Reserva */
+#reserva-detalles p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+#reserva-detalles strong {
+    color: #2c3e50;
+}
