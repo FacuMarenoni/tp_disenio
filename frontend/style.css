@@ -575,6 +575,13 @@ button {
     cursor: pointer;
 }
 
+.status-selected-start {
+    border: 2px solid #3498db !important;
+    background-color: transparent !important;
+    color: inherit !important;
+    cursor: pointer;
+}
+
 .status-libre {
     cursor: pointer;
     /* Indicar que es clickeable */

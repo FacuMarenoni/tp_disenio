@@ -849,17 +849,21 @@ function handleCellClick(celda) {
     if (!currentSel.start) {
         // 1. First click: Start Date
         currentSel.start = fecha;
-        celda.classList.add('status-selected');
+        celda.classList.add('status-selected-start');
     } else if (!currentSel.end) {
         // 2. Second click: End Date
         if (fecha < currentSel.start) {
             // If clicked before start, reset and set as new start
             limpiarSeleccionHabitacion(habitacion);
             selections[habitacion] = { start: fecha, end: null };
-            celda.classList.add('status-selected');
+            celda.classList.add('status-selected-start');
         } else {
             // Validate range
             if (validarRango(habitacion, currentSel.start, fecha)) {
+                // Remove start style from the first cell (it will get full style in marcarRango)
+                const startCell = document.querySelector(`td[data-habitacion="${habitacion}"][data-fecha="${currentSel.start}"]`);
+                if (startCell) startCell.classList.remove('status-selected-start');
+
                 currentSel.end = fecha;
                 marcarRango(habitacion, currentSel.start, fecha);
             } else {
@@ -879,13 +883,17 @@ function limpiarSeleccionHabitacion(habitacion) {
     delete selections[habitacion];
     // Remove class from all cells of this room
     const celdas = document.querySelectorAll(`td[data-habitacion="${habitacion}"]`);
-    celdas.forEach(c => c.classList.remove('status-selected'));
+    celdas.forEach(c => {
+        c.classList.remove('status-selected');
+        c.classList.remove('status-selected-start');
+    });
     actualizarBotonConfirmar();
 }
 
 function limpiarSeleccion() {
     selections = {};
     document.querySelectorAll('.status-selected').forEach(el => el.classList.remove('status-selected'));
+    document.querySelectorAll('.status-selected-start').forEach(el => el.classList.remove('status-selected-start'));
     actualizarBotonConfirmar();
 }
 
@@ -1014,37 +1022,113 @@ if (btnAceptarReserva) {
 
 const modalReserva = document.getElementById('modal-reserva');
 const formReserva = document.getElementById('form-reserva');
-const btnCancelarReservaForm = document.getElementById('btn-cancelar-reserva-form');
+const btnCancelarReservaForm = document.getElementById('btn-cancelar-reserva');
 
 if (btnCancelarReservaForm) {
     btnCancelarReservaForm.addEventListener('click', () => {
         modalReserva.style.display = 'none';
         formReserva.reset();
-        // Note: Do we clear selections here? "9.A.2 ... vuelve al punto 8". 
-        // But Cancel usually means abort. Let's keep selections if they just cancel the form to go back? 
-        // Or maybe just close form.
+        limpiarSeleccion();
+        cambiarVista('inicio');
     });
 }
 
 if (formReserva) {
-    // Uppercase enforcement
+    // Reglas de validación específicas para Reserva
+    const reglasReserva = {
+        'nombres': reglaSoloTexto,
+        'apellido': reglaSoloTexto,
+        'telefono': { regex: /^[0-9+]+$/, msg: 'Solo números y el signo +.' }
+    };
+
+    function mostrarErrorReservaCampo(nombreCampo, mensaje) {
+        const input = document.getElementById(`reserva-${nombreCampo}`);
+        const errorTag = document.getElementById(`error-reserva-${nombreCampo}`);
+
+        if (input) {
+            input.classList.add('input-error');
+        }
+        if (errorTag) {
+            errorTag.textContent = mensaje;
+            errorTag.style.display = 'block';
+        }
+    }
+
+    function limpiarErroresReserva() {
+        const inputs = formReserva.querySelectorAll('input');
+        inputs.forEach(input => input.classList.remove('input-error'));
+
+        const errorTags = formReserva.querySelectorAll('.error-text');
+        errorTags.forEach(tag => {
+            tag.textContent = '';
+            tag.style.display = 'none';
+        });
+    }
+
+    function validarInputsReserva() {
+        let esValido = true;
+        let primerError = null;
+
+        limpiarErroresReserva();
+
+        // 1. Validar campos obligatorios
+        const inputs = formReserva.querySelectorAll('input');
+        inputs.forEach(input => {
+            if (input.hasAttribute('required') && !input.value.trim()) {
+                // Extraer el nombre del campo del ID (reserva-nombres -> nombres)
+                const nombreCampo = input.name;
+                mostrarErrorReservaCampo(nombreCampo, 'El campo no puede estar vacío.');
+                esValido = false;
+                if (!primerError) primerError = input;
+            }
+        });
+
+        // 2. Validar reglas regex
+        for (const [nombreCampo, regla] of Object.entries(reglasReserva)) {
+            const input = document.getElementById(`reserva-${nombreCampo}`);
+            if (input) {
+                const valor = input.value.trim();
+                if (valor.length > 0 && !regla.regex.test(valor)) {
+                    mostrarErrorReservaCampo(nombreCampo, regla.msg);
+                    esValido = false;
+                    if (!primerError) primerError = input;
+                }
+            }
+        }
+
+        if (primerError) {
+            primerError.focus();
+        }
+
+        return esValido;
+    }
+
+    // Uppercase enforcement y limpieza de errores al escribir
     const inputs = formReserva.querySelectorAll('input[type="text"]');
     inputs.forEach(input => {
         input.addEventListener('input', () => {
             input.value = input.value.toUpperCase();
+
+            // Limpiar error de este campo
+            input.classList.remove('input-error');
+            const nombreCampo = input.name;
+            const errorTag = document.getElementById(`error-reserva-${nombreCampo}`);
+            if (errorTag) {
+                errorTag.style.display = 'none';
+                errorTag.textContent = '';
+            }
         });
     });
 
     formReserva.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // Validate (HTML5 required handles empty, but we can add custom if needed)
-        // "9.A.1. El sistema muestra un cartel con el error."
-        // "9.A.2. El sistema pone el foco en el primer campo faltante"
-        // HTML5 validation does this natively mostly.
+        if (!validarInputsReserva()) {
+            return;
+        }
 
         const apellido = document.getElementById('reserva-apellido').value.trim();
-        const nombre = document.getElementById('reserva-nombre').value.trim();
+        const nombre = document.getElementById('reserva-nombres').value.trim();
         const telefono = document.getElementById('reserva-telefono').value.trim();
 
         const reservasDTO = [];
@@ -1078,6 +1162,7 @@ if (formReserva) {
                 alert("Reservas creadas con éxito!");
                 modalReserva.style.display = 'none';
                 formReserva.reset();
+                limpiarErroresReserva(); // Limpiar errores visuales también
                 limpiarSeleccion();
                 buscarHabitacionesParaReserva(); // Refresh grid
             } else {
