@@ -51,8 +51,6 @@ public class Direccion {
     @Column(name = "direccion_piso")
     private String direccionPiso;
 
-    // --- Getters y Setters ---
-
     public String getIdHuesped() {
         return idHuesped;
     }

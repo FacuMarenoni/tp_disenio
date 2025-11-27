@@ -57,7 +57,9 @@ function logout() {
 
 // --- END LOGIN LOGIC ---
 
-const API_URL = 'http://localhost:8080/api/huespedes';
+const BACKEND_PORT = '8080';
+const API_BASE_URL = `http://${window.location.hostname}:${BACKEND_PORT}`;
+const API_URL = `${API_BASE_URL}/api/huespedes`;
 let datosHuespedTemporal = null;
 
 const reglaSoloTexto = {
@@ -720,7 +722,7 @@ async function buscarEstadoHabitaciones() {
     thead.innerHTML = '';
     tbody.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding: 20px; font-weight: bold;">Cargando estado de habitaciones...</td></tr>';
 
-    const url = `http://localhost:8080/habitaciones/estado?fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
+    const url = `${API_BASE_URL}/habitaciones/estado?fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
 
     try {
         const response = await fetch(url);

@@ -22,5 +22,4 @@ public class Cama {
     public Cama() {
     }
 
-    // ... getters and setters
 }

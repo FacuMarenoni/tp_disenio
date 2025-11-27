@@ -20,8 +20,6 @@ public class HuespedService {
     @Transactional
     public Huesped crearHuesped(Huesped huesped, boolean force) throws Exception {
 
-        // Flujo Alternativo 2.B: Verificar si el documento ya existe
-        // Flujo Alternativo 2.B: Verificar si el documento ya existe (PK)
         boolean yaExiste = huespedRepository.existsById(huesped.getNumeroDocumento());
 
         if (yaExiste) {
