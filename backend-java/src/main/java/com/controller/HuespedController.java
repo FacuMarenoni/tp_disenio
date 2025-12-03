@@ -46,4 +46,14 @@ public class HuespedController {
                 numeroDocumento);
         return new ResponseEntity<>(resultados, HttpStatus.OK);
     }
+
+    @GetMapping("/{numeroDocumento}")
+    public ResponseEntity<?> obtenerHuesped(@PathVariable String numeroDocumento) {
+        Huesped huesped = huespedService.obtenerHuespedPorDocumento(numeroDocumento);
+        if (huesped != null) {
+            return new ResponseEntity<>(huesped, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Huésped no encontrado", HttpStatus.NOT_FOUND);
+        }
+    }
 }

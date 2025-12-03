@@ -59,7 +59,7 @@ function logout() {
 
 const BACKEND_PORT = '8080';
 const API_BASE_URL = `http://${window.location.hostname}:${BACKEND_PORT}`;
-const API_URL = `${API_BASE_URL}/api/huespedes`;
+const API_HUESPED_URL = `${API_BASE_URL}/api/huespedes`;
 let datosHuespedTemporal = null;
 
 const reglaSoloTexto = {
@@ -208,7 +208,7 @@ form.addEventListener('submit', async (event) => {
 
 async function guardarHuesped(huespedData) {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(API_HUESPED_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(huespedData),
@@ -248,7 +248,7 @@ async function guardarHuesped(huespedData) {
 
 async function forzarGuardadoHuesped(huespedData) {
     try {
-        const response = await fetch(`${API_URL}?force=true`, {
+        const response = await fetch(`${API_HUESPED_URL}?force=true`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(huespedData),
@@ -475,7 +475,7 @@ async function buscarHuespedes() {
     if (tipoDoc) params.append('tipoDocumento', tipoDoc);
     if (numDoc) params.append('numeroDocumento', numDoc);
 
-    const url = `${API_URL}/buscar?${params.toString()}`;
+    const url = `${API_HUESPED_URL}/buscar?${params.toString()}`;
 
     try {
         const response = await fetch(url);
@@ -1154,7 +1154,7 @@ if (formReserva) {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/reservas', {
+            const response = await fetch(`${API_BASE_URL}/reservas`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(reservasDTO)
@@ -1276,7 +1276,7 @@ async function buscarHabitacionesParaReserva() {
     thead.innerHTML = '';
     tbody.innerHTML = '<tr><td colspan="100%" style="text-align:center; padding: 20px; font-weight: bold;">Cargando disponibilidad...</td></tr>';
 
-    const url = `http://localhost:8080/habitaciones/estado?fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
+    const url = `${API_BASE_URL}/habitaciones/estado?fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
 
     try {
         const response = await fetch(url);

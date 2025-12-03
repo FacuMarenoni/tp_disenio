@@ -93,4 +93,8 @@ public class HuespedService {
                         h.getNumeroDocumento()))
                 .collect(java.util.stream.Collectors.toList());
     }
+
+    public Huesped obtenerHuespedPorDocumento(String numeroDocumento) {
+        return huespedRepository.findById(numeroDocumento).orElse(null);
+    }
 }
