@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@source "../components";
+@source "../app";
+@source "../lib";
+
+:root {
+  --primary-color: #0056b3;
+  --primary-hover: #004494;
+  --secondary-color: #2c3e50;
+  --bg-color: #f4f4f4;
+  --text-color: #333;
+  --sidebar-width: 260px;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #007bff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Layout */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-content {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Common Components */
+.btn-submit {
+  background-color: var(--success-color);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-cancel {
+  background-color: var(--danger-color);
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  text-transform: uppercase;
+}
+
+/* Login specific overrides */
+.login-card input {
+  text-transform: none;
+}
+
+.error-text {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  margin-top: 4px;
+  font-weight: bold;
+}
+
+.input-error {
+  border: 2px solid var(--danger-color) !important;
+  background-color: #fff8f8;
+}
+
+/* Table Styles */
+.table-responsive {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.results-table th {
+  position: sticky;
+  top: 0;
+  background-color: #e9ecef;
+  z-index: 1;
+  color: #333;
+  font-weight: bold;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.results-table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.results-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Status Colors */
+.status-libre {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.status-ocupado {
+  background-color: var(--danger-color);
+  color: white;
+}
+
+.status-reservado {
+  background-color: var(--warning-color);
+  color: black;
+}
+
+.status-pago-pendiente {
+  background-color: var(--info-color);
+  color: white;
+}
