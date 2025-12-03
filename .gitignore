@@ -1,0 +1,8 @@
+front_next/node_modules/
+front_next/.next/
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
