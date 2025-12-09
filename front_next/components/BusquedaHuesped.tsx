@@ -274,6 +274,7 @@ export default function BusquedaHuesped({ onSelect, isMultiple = false, onCancel
                                                 name="selectedGuest"
                                                 checked={selectedDocs.includes(h.numeroDocumento)}
                                                 onChange={() => toggleSelection(h.numeroDocumento)}
+                                                onClick={(e) => e.stopPropagation()}
                                                 className="cursor-pointer"
                                             />
                                         </td>

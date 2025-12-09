@@ -101,6 +101,14 @@ export default function FormularioHuesped() {
                     tipoDocumento: tipoDoc || prev.tipoDocumento,
                     numeroDocumento: numDoc || prev.numeroDocumento
                 }));
+            } else {
+                // Limpiar formulario
+                setFormData(initialData);
+                setErrors({});
+                setServerError('');
+                setSuccessMessage('');
+                setWarningMessage('');
+                setOriginalNumeroDocumento(null);
             }
         }
     }, [searchParams]);
