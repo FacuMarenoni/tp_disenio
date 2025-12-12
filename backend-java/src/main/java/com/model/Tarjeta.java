@@ -1,6 +1,7 @@
 package com.model;
 
 import jakarta.persistence.*;
+import com.enums.TipoTarjeta;
 
 @Entity
 @Table(name = "tarjeta")
@@ -19,8 +20,9 @@ public class Tarjeta extends MetodoDePago {
     @Column(nullable = false, length = 5)
     private String vencimiento;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_tarjeta", nullable = false, length = 10)
-    private String tipoTarjeta;
+    private TipoTarjeta tipoTarjeta;
 
     @Column(columnDefinition = "integer default 1")
     private Integer cuotas = 1;
@@ -57,11 +59,11 @@ public class Tarjeta extends MetodoDePago {
         this.vencimiento = vencimiento;
     }
 
-    public String getTipoTarjeta() {
+    public TipoTarjeta getTipoTarjeta() {
         return tipoTarjeta;
     }
 
-    public void setTipoTarjeta(String tipoTarjeta) {
+    public void setTipoTarjeta(TipoTarjeta tipoTarjeta) {
         this.tipoTarjeta = tipoTarjeta;
     }
 
