@@ -107,6 +107,7 @@ CREATE TABLE nota_credito (
 
 CREATE TABLE metodo_de_pago (
     id          SERIAL PRIMARY KEY,
+    importe	FLOAT,
     tipo_metodo VARCHAR(20) NOT NULL -- 'EFECTIVO', 'TARJETA', 'CHEQUE'
 );
 

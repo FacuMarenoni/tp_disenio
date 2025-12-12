@@ -74,8 +74,11 @@ export default function FormularioHuesped() {
                         const guestData = await response.json();
                         const formattedDate = guestData.fechaNacimiento ? new Date(guestData.fechaNacimiento).toISOString().split('T')[0] : '';
 
+                        const formattedCuit = guestData.cuit ? formatCuit(guestData.cuit) : '';
+
                         setFormData({
                             ...guestData,
+                            cuit: formattedCuit,
                             fechaNacimiento: formattedDate,
                             direccion: guestData.direccion || initialData.direccion
                         });
@@ -113,6 +116,19 @@ export default function FormularioHuesped() {
         }
     }, [searchParams]);
 
+    const formatCuit = (value: string) => {
+        const rawValue = value.replace(/\D/g, '').slice(0, 11);
+        let formattedValue = rawValue;
+
+        if (rawValue.length > 2) {
+            formattedValue = `${rawValue.slice(0, 2)}-${rawValue.slice(2)}`;
+            if (rawValue.length > 10) {
+                formattedValue = `${formattedValue.slice(0, 11)}-${rawValue.slice(10)}`;
+            }
+        }
+        return formattedValue;
+    };
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
 
@@ -126,6 +142,8 @@ export default function FormularioHuesped() {
                     [field]: value.toUpperCase()
                 }
             }));
+        } else if (name === 'cuit') {
+            setFormData(prev => ({ ...prev, [name]: formatCuit(value) }));
         } else {
             const finalValue = name === 'email' ? value : value.toUpperCase();
             setFormData(prev => ({ ...prev, [name]: finalValue }));
@@ -192,8 +210,12 @@ export default function FormularioHuesped() {
         if (!formData.direccion.pais.trim()) newErrors['direccion.pais'] = 'Este campo es obligatorio.';
         else if (!soloTexto.test(formData.direccion.pais)) newErrors['direccion.pais'] = 'Solo se permiten letras.';
 
-        if (formData.posicionIva === 'RESPONSABLE_INSCRIPTO' && !formData.cuit?.trim()) {
-            newErrors.cuit = 'El CUIT es obligatorio para R.I.';
+        const rawCuit = formData.cuit ? formData.cuit.replace(/\D/g, '') : '';
+
+        if (rawCuit.length > 0 && rawCuit.length !== 11) {
+            newErrors.cuit = 'CUIT inválido.';
+        } else if (formData.posicionIva === 'RESPONSABLE_INSCRIPTO' && rawCuit.length === 0) {
+            newErrors.cuit = 'El cuit es obligatorio para R.I.';
         }
 
         setErrors(newErrors);

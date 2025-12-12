@@ -56,7 +56,7 @@ export default function Sidebar() {
                 <li className="mt-auto border-t border-white/10">
                     <button
                         onClick={logout}
-                        className="w-full flex items-center gap-[15px] py-[15px] px-[25px] text-white/80 font-medium transition-all hover:bg-white/10 hover:text-white border-l-4 border-transparent text-left"
+                        className="w-full flex items-center gap-[15px] py-[15px] px-[25px] text-white/80 font-medium transition-all hover:bg-white/10 hover:text-white border-l-4 border-transparent text-left cursor-pointer"
                     >
                         <LogOut size={20} />
                         Salir
